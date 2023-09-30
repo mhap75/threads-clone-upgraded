@@ -91,6 +91,10 @@ export async function getCommunityPosts(id: string) {
             select: "image _id", // Select the "name" and "_id" fields from the "User" model
           },
         },
+        {
+          path: "community",
+          model: Community,
+        },
       ],
     });
   } catch (error) {

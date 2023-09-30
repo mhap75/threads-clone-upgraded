@@ -1,4 +1,5 @@
 import AccountProfile from "@/components/forms/AccountProfile";
+import { getUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 
 const Onboarding = async () => {
@@ -6,15 +7,17 @@ const Onboarding = async () => {
 
   if (!user) return null;
 
-  const userInfo = { _id: "", username: "", name: "", bio: "", image: "" };
+  const userInfo = await getUser(user.id);
+
+  // if (userInfo.onboarded) redirect("/");
 
   const userData = {
     id: user?.id,
     objectId: userInfo?._id,
-    username: userInfo?.username || user?.username,
-    name: userInfo?.name || user?.firstName || "",
-    bio: userInfo?.bio || "",
-    image: userInfo?.image || user?.imageUrl,
+    username: userInfo ? userInfo?.username : user?.username,
+    name: userInfo ? userInfo?.name : user?.firstName || "",
+    bio: userInfo ? userInfo?.bio : "",
+    image: userInfo ? userInfo?.image : user?.imageUrl,
   };
 
   return (

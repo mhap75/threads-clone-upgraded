@@ -1,5 +1,6 @@
 import ThreadCard from "@/components/card/ThreadCard";
 import Comment from "@/components/forms/Comment";
+import DeleteThread from "@/components/shared/DeleteThread";
 import { getPost } from "@/lib/actions/thread.actions";
 import { getUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
@@ -18,6 +19,9 @@ const Thread = async ({ params: { id } }: { params: { id: string } }) => {
 
   return (
     <section className="relative">
+      {thread.author.id === user.id && (
+        <DeleteThread authorId={thread.author.id} currentUserId={user.id} id={thread._id} />
+      )}
       <div>
         <ThreadCard
           id={thread._id}

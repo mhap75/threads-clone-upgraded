@@ -24,7 +24,7 @@ export async function postThread({
 
     const communityIdObject = await Community.findOne(
       { id: communityId },
-      { _id: 1 }
+      { _id: 1 },
     );
 
     const newThread = await Thread.create({
@@ -56,14 +56,18 @@ export async function getPosts(pageNumber = 1, pageSize = 20) {
   try {
     await connectDB();
 
-    const postQuery = Thread.find({
-      parentId: { $in: [null, undefined] },
-    })
+    const postQuery = Thread.find({ parentId: { $in: [null, undefined] } })
       .sort({ createdAt: "desc" })
       .skip(skipAmount)
       .limit(pageSize)
-      .populate({ path: "author", model: User })
-      .populate({ path: "community", model: Community })
+      .populate({
+        path: "author",
+        model: User,
+      })
+      .populate({
+        path: "community",
+        model: Community,
+      })
       .populate({
         path: "children",
         populate: {

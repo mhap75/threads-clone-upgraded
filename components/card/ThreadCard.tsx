@@ -12,11 +12,13 @@ interface ThreadCardProps {
     id: string;
   };
   content: string;
-  community: {
-    name: string;
-    image: string;
-    id: string;
-  } | null;
+  community:
+    | {
+        name: string;
+        image: string;
+        id: string;
+      }[]
+    | null;
   createdAt: string;
   comments: {
     author: {
@@ -43,7 +45,7 @@ const ThreadCard: React.FC<ThreadCardProps> = ({
         isComment ? "px-0 xs:px-7" : "bg-dark-2 p-7"
       }`}
     >
-      <div className="flex items-start justify-between">
+      <div className="flexCol items-start justify-between">
         <div className="flex w-full flex-1 gap-4">
           <div className="flexCol items-center">
             <Link href={`/profile/${author.id}`} className="relative h-11 w-11">
@@ -93,27 +95,47 @@ const ThreadCard: React.FC<ThreadCardProps> = ({
           </div>
         </div>
 
-        {/* Todo: Delete */}
-        {/* Todo: Logos */}
+        {!isComment && comments.length > 0 && (
+          <div className="ml-1 mt-3 flex items-center gap-2">
+            {comments.slice(0, 2).map((comment, index) => (
+              <Image
+                key={index}
+                src={comment.author.image}
+                alt={`user_${index}`}
+                width={24}
+                height={24}
+                className={`${
+                  index !== 0 && "-ml-5"
+                } rounded-full object-cover`}
+              />
+            ))}
 
-        {!isComment && community && (
-          <Link
-            href={`/communities/${community.id}`}
-            className="mt-5 flex items-center"
-          >
-            <p className="text-subtle-medium text-gray-1">
-              {formatDateString(createdAt)} - {community.name} Community
-            </p>
-            <Image
-              src={community.image}
-              alt={community.name}
-              height={14}
-              width={14}
-              className="ml-1 rounded-full object-cover"
-            />
-          </Link>
+            <Link href={`/thread/${id}`}>
+              <p className="mt-1 text-subtle-medium text-gray-1">
+                {comments.length} repl{comments.length > 1 ? "ies" : "y"}
+              </p>
+            </Link>
+          </div>
         )}
       </div>
+      {!isComment && !!community?.length && (
+        <Link
+          href={`/communities/${community[0].id}`}
+          className="mt-5 flex items-center"
+        >
+          <p className="text-subtle-medium text-gray-1">
+            {formatDateString(createdAt)}{" "}
+            <span className="text-primary-500">{community[0].name}</span>
+          </p>
+          <Image
+            src={community[0].image}
+            alt={community[0].name}
+            height={14}
+            width={14}
+            className="ml-1 rounded-full object-cover"
+          />
+        </Link>
+      )}
     </article>
   );
 };

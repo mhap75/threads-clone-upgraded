@@ -1,4 +1,5 @@
 import ThreadCard from "@/components/card/ThreadCard";
+import { getCommunityPosts } from "@/lib/actions/community.actions";
 import { getUserPosts } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
 
@@ -13,7 +14,13 @@ const ThreadsTab: React.FC<ThreadsTabProps> = async ({
   accountId,
   currentUserId,
 }) => {
-  let result = await getUserPosts(accountId);
+  let result: any;
+
+  if (accountType === "Community") {
+    result = await getCommunityPosts(accountId);
+  } else {
+    result = await getUserPosts(accountId);
+  }
 
   if (!result) redirect("/");
 

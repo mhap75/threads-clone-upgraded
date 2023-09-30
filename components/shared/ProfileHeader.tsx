@@ -7,6 +7,7 @@ interface ProfileHeaderProps {
   username: string;
   imgUrl: string;
   bio: string;
+  type?: "User" | "Community";
 }
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({
@@ -16,6 +17,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   authUserId,
   accountId,
   bio,
+  type
 }) => {
   return (
     <div className="flexCol w-full justify-start">
