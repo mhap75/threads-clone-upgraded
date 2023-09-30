@@ -1,6 +1,7 @@
 "use client";
 
 import { sidebarLinks } from "@/constants";
+import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -8,6 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 const Bottombar = () => {
   const { push } = useRouter();
   const pathname = usePathname();
+  const { userId } = useAuth();
 
   return (
     <section className="bottombar">
@@ -16,6 +18,8 @@ const Bottombar = () => {
           const isActive =
             (pathname.includes(route) && route.length > 1) ||
             pathname === route;
+
+          if (route === "/profile") route = `${route}/${userId}`;
 
           return (
             <Link
