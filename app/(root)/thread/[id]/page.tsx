@@ -16,8 +16,6 @@ const Thread = async ({ params: { id } }: { params: { id: string } }) => {
 
   const thread = await getPost(id);
 
-  console.log(userInfo._id);
-
   return (
     <section className="relative">
       <div>

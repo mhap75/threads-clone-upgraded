@@ -27,12 +27,9 @@ export async function postThread({
       community: null,
     });
 
-    await User.findOneAndUpdate(
-      { id: author },
-      {
-        $push: { threads: newThread._id },
-      },
-    );
+    await User.findByIdAndUpdate(author, {
+      $push: { threads: newThread._id },
+    });
 
     revalidatePath(path);
   } catch (err: any) {

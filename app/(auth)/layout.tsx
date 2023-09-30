@@ -18,7 +18,11 @@ export default function RootLayout({
   return (
     <Providers>
       <html lang="en">
-        <body className={`${inter.className} bg-dark-1`}>{children}</body>
+        <body
+          className={`${inter.className} flexCenter min-h-screenAdaptable w-full bg-dark-1 py-4`}
+        >
+          {children}
+        </body>
       </html>
     </Providers>
   );

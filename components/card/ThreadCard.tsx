@@ -63,7 +63,7 @@ const ThreadCard: React.FC<ThreadCardProps> = ({
 
             <p className="mt-2 text-small-regular text-light-2">{content}</p>
 
-            <div className="flexCol mt-5 gap-3">
+            <div className={`flexCol mt-5 gap-3 ${isComment && "mb-10"}`}>
               <div className="flex gap-3.5">
                 {["heart-gray", "reply", "repost", "share"].map((btn) => (
                   <Link

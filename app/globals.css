@@ -28,7 +28,7 @@
     }
 
     .thread-card_bar {
-        @apply relative mt-2 w-0.5 grow rounded-full bg-neutral-800;
+        @apply relative my-2 w-0.5 grow rounded-full bg-neutral-800;
     }
 
     .user-card {
@@ -134,7 +134,7 @@
 
 /* Tab */
 .tab {
-    @apply flex min-h-[50px] flex-1 items-center gap-3 bg-dark-2 text-light-2 data-[state=active]:bg-[#0e0e12] data-[state=active]:text-light-2 !important;
+    @apply flex min-h-[50px] flex-1 items-center gap-3 bg-dark-2 text-light-2 data-[state=active]:bg-[#0e0e12] data-[state=active]:text-light-2 rounded-lg !important;
 }
 
 .no-focus {
