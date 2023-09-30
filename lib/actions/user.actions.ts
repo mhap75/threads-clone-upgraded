@@ -1,5 +1,6 @@
 "use server";
 
+import Community from "@/lib/models/community.model";
 import Thread from "@/lib/models/thread.model";
 import { connectDB } from "@/lib/mongoose";
 import { FilterQuery, SortOrder } from "mongoose";
@@ -39,7 +40,10 @@ export async function getUser(userId: string) {
   try {
     await connectDB();
 
-    return await User.findOne({ id: userId });
+    return await User.findOne({ id: userId }).populate({
+      path: "communities",
+      model: Community,
+    });
   } catch (err: any) {
     throw new Error(`Failed to get user data: ${err.message}`);
   }
@@ -49,20 +53,25 @@ export async function getUserPosts(userId: string) {
   try {
     await connectDB();
 
-    // ToDo: Populate Community
-
     return await User.findOne({ id: userId }).populate({
       path: "threads",
       model: Thread,
-      populate: {
-        path: "children",
-        model: Thread,
-        populate: {
-          path: "author",
-          model: User,
-          select: "name image id",
+      populate: [
+        {
+          path: "community",
+          model: Community,
+          select: "name id image _id",
         },
-      },
+        {
+          path: "children",
+          model: Thread,
+          populate: {
+            path: "author",
+            model: User,
+            select: "name image id",
+          },
+        },
+      ],
     });
   } catch (err: any) {
     throw new Error(`Failed to get user posts: ${err.message}`);
